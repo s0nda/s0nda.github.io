@@ -1,0 +1,7 @@
+/*
+ * style.css
+ * Copyright 2018-today
+ */
+* { margin: 0; padding: 0; }
+html, body { max-height: 100%; overflow-x: hidden; }
+body { background-size: cover; margin: 8px; }
