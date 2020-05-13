@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+  <meta charset="utf-8" /> <!-- HTML5 -->
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" /> <!-- HTML 4.x -->
+  <meta http-equiv="expires" content="0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" /> 
+  <link href="style.css" type="text/css" rel="stylesheet">
+  <title>COde BEautifier</title>
+<body>
+  <script type="text/javascript" src="cobe_min.js"></script>
+  <h1>CobeJS (COde BEautifier in Javascript)</h1>
+  <h2>Syntax highlighting</h2>
+  <br />
+  <button onclick="COBE.switch_theme('DARK');">DARK</button>
+  <button onclick="COBE.switch_theme('DARK_RETRO');">DARK_RETRO</button>
+  <button onclick="COBE.switch_theme('PURPLE_RETRO');">PURPLE_RETRO</button>
+  <br />
+  <br />
+  <div class="cobe">
+    byte write (double * x , /* int */ int y) { // float
+    char * func (int * x, char * y) { /* type double here */
+    char * func (int * x, char * y) { /* type double here */
+    char * func (int * x, char * y) { /* comment double * type */
+    char * func (int * x, char * y) { // type double
+    char * func (int * x, char * y) { // type double here
+    System.out.println("Hello World!" + exit(c) ); // Use the system function println()
+    echo -e "\n\e[36mThe new files will not be added (committed) at once.\e[0m"
+    echo "we use function " + add(x,y) + "asaas" # comment
+    echo "we use added (abx) command"# we can use keyword for in function (keyword)
+    int main (int argc, char * argv[]) {
+    if [ -z ]; then # if [ -z ]; then
+    for ff in "${ARR_IGNORED_FILES[@]}"; do # for ff in do; then the @-sign in 
+    #!/bin/bash
+    TMP_FILE="tmp.txt"
+    #
+    # Contains names of existing files that are modified and will be uploaded to repository
+    MOD_FILE="upload.txt"
+    #
+    # Contains names of new files that didn't exist in repository before
+    NEW_FILE="new.txt"
+    #
+    # Array of file names that should be ignored
+    ARR_IGNORED_FILES=("germany.json" "test.json" "test.php" "test.txt" "test2.php" "test3.php" "testa.php" "testjson.php")
+    #
+    # Show the working tree status, in short (-s) form. Redirect (Overwrite) information to external file.
+    git status -s > $TMP_FILE
+    #
+    # Read line by line from external file. Split every $line in array of tokens separated by IFS (delimiter).
+    while read line; do
+        if [ -z "$line" ]; then
+            continue;
+        fi
+        accepted=true # <true> if a file should be accepted / added in git, <false> otherwise.
+        IFS=' ' # set space as delimiter.
+        read -ra arr <<< "$line" # string in $line is read into an array of tokens separated by IFS.
+        #
+        # Every $line has the form: "?? fileA.extension" or " M fileA.extension", where " M " is for an added file
+        # that is just modified, and "??" is for a new file to be added. The first token "${arr[0]}" (e.g. "??" or " M ")
+        # has index 0, the second token "${arr[1]}" (e.g. "fileA.extension") has index 1 and so on.
+        status="${arr[0]}"; # "${arr[0]}" indicates the first token, either "??" or " M ".
+        file_path="${arr[1]}"; # ${arr[0]}" indicates the second token, is name (path) of the file to be added or ignored.
+        # new file ("??"), should be added.
+        if [ "$status" = "??" ]; then
+            for ff in "${ARR_IGNORED_FILES[@]}"; do # the @-sign in "${array[@]}" indicates the whole array values.
+                if [ "$file_path" = "$ff" ]; then # if $file_path is in the ARR_IGNORED_FILES list, then skip / ignore it.
+                    accepted=false
+                    break;
+                fi
+            done
+            if [ "$file_path" = "$TMP_FILE" ]; then # prevent that $TMP_FILE file name is written to $NEW_FILE
+                accepted=false
+            fi
+            if [ "$accepted" = true ]; then # new file ("??"") is accepted and going to be written to $NEW_FILE
+                echo $file_path >> $NEW_FILE
+            fi
+        # modified file (" M ") is going to be written to $MOD_FILE
+        elif [ "$status" = "M" ]; then
+            echo $file_path >> $MOD_FILE # write file name to $MOD_FILE
+        fi
+    done < $TMP_FILE
+    #
+    # Delete created external file
+    rm -f $TMP_FILE
+    #
+    # Display and color content $MOD_FILE
+    # URL: https://misc.flogisoft.com/bash/tip_colors_and_formatting
+    echo -e "\n\e[36m================================\e[0m" # "..\e[0m" : End coloring
+    echo -e "\e[36mModified files:\e[0m" # "\e[36m.." : Cyan
+    while read line; do
+        echo -e "\e[92m$line" # "\e[92m.." : Light Green
+    done < $MOD_FILE
+    #
+    # Display and color content $NEW_FILE
+    # URL: https://misc.flogisoft.com/bash/tip_colors_and_formatting
+    echo -e "\n\e[36m================================\e[0m" # "..\e[0m" : End coloring
+    echo -e "\e[36mNew files:\e[0m" # "\e[36m.." : Cyan
+    while read line; do
+        echo -e "\e[91m$line\e[0m" # "\e[91m.." : Light Red
+    done < $NEW_FILE
+    #
+    # Read user input (prompt, -p)
+    echo -e "\n\e[36mAdd / Commit all new files at once? (Y/N):\e[0m"
+    read -p "User chooses: " user_input
+    #
+    # Proceeds according to user input (choose).
+    # If user does not want to add (commit) all new files to repository at once.
+    if [ "$user_input" = 'N' ] || [ "$user_input" = 'n' ]; then
+        echo -e "\n\e[36mThe new files will not be added (committed) at once.\e[0m"
+        echo -e "\n\e[36mUser should decide which file should be added / ignored now.\e[0m"
+        #
+        # Read from $NEW_FILE. Decide if a file should be added to repository or ignored.
+        # Then write it to $TMP_FILE
+        while read line; do
+            read -p "Should add file \"$line\"? (Y/N): " -u 1 user_var # "-u 1" : read from stdin
+            if [ "$user_var" = 'Y' ] || [ "$user_var" = 'y' ]; then
+                echo $line >> $TMP_FILE # Write (Overwrite) $line to $TMP_FILE
+            fi
+        done < $NEW_FILE
+    fi
+    #
+    # Delete external file
+    rm -f $MOD_FILE $NEW_FILE
+  </div>
+  <br />
+  <div class="cobe">
+    char * func (int * x, char * y) { /* double */
+    char * func (int * x, char * y) { /* comment double */
+    }
+    #
+    if (x == 1) { // if then else
+        dddd;
+        /*
+        * if then else
+        * return 0;
+        */
+        func();
+        printf();
+    }
+    int write (int x , int y) { // int
+    int write (int x , /* int */ int y) { // int
+    char func (arg) {}
+    char func (int x, char y) {
+        // bla
+    }
+    char * func (int * x, char * y) {
+        // bla
+    }
+    char func ((void) func, int x) {}
+    char *  func (arg) {}
+    // char func (x) { xx }
+    char func (x) { xx } /* int func (ab) */
+    char func (x) { xx } // int func (ab)
+    char func (x) { xx } # comment
+    char func (x) { xx } // break;
+    int write (int x, int y) { }
+  </div>
+  <div class="cobe">
+    /*
+     * Standard example in Java.
+     */
+    class HelloWorld {
+        public static void main (String[] args) {
+            System.out.println("Hello World!" + exit()); // Use the system function println()
+        }
+    }
+  </div>
+  <br />
+  <div class="cobe">
+    /*
+     * Standard example in C
+     */
+    #include <stdio.h>
+        
+    int main (int argc, char * argv[]) {
+        printf("Hello World!\n"); // The function printf() displays a string in console
+        return 0;
+    }
+  </div>
+  <br />
+  <div class="cobe">
+    #!/bin/bash
+    #
+    # A bash script example
+    #
+    while read line; do # while loop
+        echo $line # display line in console
+        read -p "User input: " user_input  # store user input in $user_input
+        echo $user_input # display user input in console
+    done &lt; "text.txt" # read input stream from "text.txt"
+  </div>
+  <br />
+  <div class="cobe">
+    /**
+     * strtok.h
+     * 
+     * Usage:
+     *      Include this header by using the #include directive:
+     *              #include "strtok.h"
+     * 
+     * Compile:
+     *      gcc -Wall -Werror -std=gnu99 -pedantic <main_prog.c> -o <main_prog>
+     * 
+     * where <main_prog> is the name of C-file that imports (includes) the 
+     * "strtok.h" header file.
+     */
+    #ifndef STRTOK_H
+    #define STRTOK_H
+    
+    #ifdef __cplusplus
+    extern "C" {
+    #endif
+    
+    /*
+     * strtok
+     * 
+     * Splitts (Tokenizes) a given <string> in to many substrings (tokens), that are
+     * delimited by characters given in <delimiters>.
+     * 
+     * @params
+     *      <string>:
+     *          String that should be splitted (tokenized) in tokens.
+     *          This string will remain modified after tokenization.
+     *      <delimiters>:
+     *          An char array that contains the delimiters for tokenizing
+     * 
+     * @return
+     *      A token (substring) is returned. If <string> is NULL, then
+     *      either NULL or the next token will be returned.
+     */
+    char * strtok (char * __restrict__ string, const char * __restrict__ delimiters) {
+        if (!delimiters || !(*delimiters)) { // delimiters == NULL || delimiters[0] == '\0'
+            return string;
+        }
+        ////
+        // 0. Declare (static) variables
+        ////
+        int cta = 0; // current token address; distance (offset) from string begin for current token
+        static int nta = 0; // next token address; distance (offset) from string begin for next token
+        static int ln = 0; // length of <string>
+        static char * tok = 0; // pointer to <string>; tok = NULL = 0
+        ////
+        // 1. If <string> is NULL, return the (next) string token or NULL
+        ////
+        if ( !string ) { // string == 0 = NULL
+            if ( !tok ) {
+                return 0;
+            }
+            cta = nta; // set token address
+            if (cta == ln) {
+                return 0;
+            }
+            while (tok[nta]) {
+                ++nta;
+            }
+            while ( !tok[nta] && (nta < ln)) { // (tok[cta] == 0 == '\0') && (nta < ln)
+                ++nta;
+            }
+        }
+        else { // string != NULL
+            ////
+            // 2. Replace all delimiters in <string> by '\0'. Update nta (next token's address)
+            ////
+            if (!tok) { // if (tok != NULL)
+                tok = string;
+            }
+            int i = 0, j = 0;
+            while (string[i]) {
+                j = 0;
+                while (delimiters[j]) {
+                    if (string[i] == delimiters[j]) {
+                        string[i] = '\0';
+                        if (nta == 0) { // Update nta
+                            nta = i + 1;
+                        }
+                        break;
+                    }
+                    ++j;
+                }
+                ++i;
+            }
+            ln = i; // Set length of <string>
+            ////
+            // 3. Set valid cta (current token's address) and update nta (next token's address).
+            //    Skip (Jump over) all delimiters (replaced by '\0').
+            ////
+            while ( !tok[cta] ) { // tok[cta] == 0 == '\0'
+                cta = nta;
+                if (cta == ln) {
+                    return 0;
+                }
+                while (tok[nta]) {
+                    ++nta;
+                }
+                while ( !tok[nta] && (nta < ln)) { // (tok[cta] == 0 == '\0') && (nta < ln)
+                    ++nta;
+                }
+            }
+        }
+        return (tok + cta);
+    }
+    
+    #ifdef __cplusplus
+    }
+    #endif
+    
+    #endif /* STRTOK_H */
+  </div>
+</body>
+</html>
