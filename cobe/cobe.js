@@ -41,7 +41,7 @@ var COBE = (function (_this) {
     // Collections of keywords in code
     //
     const DEFAULT_TYPES = "unsigned|byte|char|int|float|double|void|const|static";
-    const DEFAULT_KEYWORDS = "public|private|class|if|then|else|fi|elif|for|do|while|done|break|continue|return|switch|case|in|default";
+    const DEFAULT_KEYWORDS = "function|public|private|class|if|then|else|fi|elif|for|do|while|done|break|continue|return|switch|case|in|default";
     const DEFAULT_DIRECTIVES = "#pseudoA|#include|#ifdef|#ifndef|#define|#endif|#!/bin/bash|#pseudoB"; // Workaround: Must add "pseudoA" at beginning and "#pseudoB" at the end. Otherwise, the first (#include) and last (#endif) directive will not be recognized.";
     //
     // RegExp for keywords (types, control-keywords, directives) in code
